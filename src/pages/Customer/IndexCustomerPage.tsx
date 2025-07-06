@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import CustomerForm from '../components/CustomerForm';
-import CustomerList from '../components/CustomerList';
-import { Customer } from '../models/Customer';
+import { Customer } from '../../models/Customer';
+import Header from '../../components/Header';
+import Navbar from '../../components/Navbar';
+import Index from '../../components/Customer/Index';
 
-const CustomerPage: React.FC = () => {
+const IndexCustomerPage: React.FC = () => {
   const [customers, setCustomers] = useState<Customer[]>([]);
   const [selectedCustomerId, setSelectedCustomerId] = useState<string>('');
 
@@ -18,11 +19,11 @@ const CustomerPage: React.FC = () => {
   }, []);
 
   return (
-    <div className="space-y-6">
-      <CustomerForm onSuccess={fetchCustomers} />
-      <CustomerList customers={customers} onSelect={setSelectedCustomerId} />
-    </div>
+    <Header>
+      <Navbar/>
+      <Index customers={customers} onSelect={setSelectedCustomerId} />
+    </Header>
   );
 };
 
-export default CustomerPage;
+export default IndexCustomerPage;

@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import OrderForm from '../components/OrderForm';
-import OrderList from '../components/OrderList';
-import { Customer } from '../models/Customer';
-import { Order } from '../models/Order';
+import { Customer } from '../../models/Customer';
+import { Order } from '../../models/Order';
+import Header from '../../components/Header';
+import Navbar from '../../components/Navbar';
+import Index from '../../components/Order/Index';
 
-const OrderPage: React.FC = () => {
+const IndexOrderPage: React.FC = () => {
   const [orders, setOrders] = useState<Order[]>([]);
   const [customers, setCustomers] = useState<Customer[]>([]);
   const [selectedCustomerId, setSelectedCustomerId] = useState<string>('');
@@ -27,11 +28,11 @@ const OrderPage: React.FC = () => {
   }, []);
 
   return (
-    <div className="space-y-6">
-      <OrderForm customers={customers} onSuccess={fetchOrders} />
-      <OrderList orders={orders} selectedCustomerId={selectedCustomerId} />
-    </div>
+    <Header>
+      <Navbar/>
+      <Index orders={orders} customers={customers} selectedCustomerId={selectedCustomerId} />
+    </Header>
   );
 };
 
-export default OrderPage;
+export default IndexOrderPage;
