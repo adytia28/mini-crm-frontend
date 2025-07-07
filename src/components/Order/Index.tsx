@@ -35,7 +35,9 @@ const Index: React.FC<Props> = ({ orders, customers, selectedCustomerId }) => {
             {filteredOrders.map(order => (
               <li key={order.id} className="py-2 px-2">
                 <div className="font-medium">Order ID: {order.id}</div>
-                 <div className="text-md font-600 text-slate-600 mt-4"> {filteredNameOrder(order.customer_id)}</div>
+                 <div className="text-md font-600 text-slate-600 mt-4"> 
+                   <Link to={`/orders/show/${order.customer_id}`}>{filteredNameOrder(order.customer_id)}</Link>
+                  </div>
                 <div className="text-md font-600 text-slate-600">Total: Rp {order.total_price.toLocaleString("ID")}</div>
                 <div className="text-sm text-gray-600 pt-2">{formatTanggalIndonesia(order.created_at)}</div>
               </li>
