@@ -9,9 +9,17 @@ const IndexCustomerPage: React.FC = () => {
   const [selectedCustomerId, setSelectedCustomerId] = useState<string>('');
 
   const fetchCustomers = async () => {
-    const res = await fetch('http://localhost:3001/customers');
-    const data = await res.json();
-    setCustomers(data);
+    const cached = localStorage.getItem('customers');
+
+    if(cached) {
+      setCustomers(JSON.parse(cached));
+    } else {
+      const res = await fetch('http://localhost:3001/customers');
+      const data = await res.json();
+  
+      localStorage.setItem('customers', JSON.stringify(data));
+      setCustomers(data);
+    }
   };
 
   useEffect(() => {

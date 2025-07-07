@@ -54,6 +54,7 @@ const Create: React.FC<Props> = ({ onSuccess }) => {
         setErrors([]);
         onSuccess();
 
+        localStorage.removeItem('customers');
         navigate('/customers');
       } else {
           const errorData = await res.json();
@@ -67,11 +68,11 @@ const Create: React.FC<Props> = ({ onSuccess }) => {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="bg-white p-4 shadow rounded space-y-4">
+    <form onSubmit={handleSubmit} className="p-4 space-y-4 bg-white rounded shadow">
       <h2 className="text-lg font-semibold">Tambah Customer</h2>
 
       {errors.length > 0 && (
-        <ul className="bg-red-100 border border-red-400 text-red-700 p-3 rounded">
+        <ul className="p-3 text-red-700 bg-red-100 border border-red-400 rounded">
           {errors.map((err, idx) => (
             <li key={idx}>• {err}</li>
           ))}
@@ -99,7 +100,7 @@ const Create: React.FC<Props> = ({ onSuccess }) => {
         value={phone}
         onChange={e => setPhone(e.target.value)}
       />
-      <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded">
+      <button type="submit" className="px-4 py-2 text-white bg-blue-500 rounded">
         Simpan
       </button>
     </form>

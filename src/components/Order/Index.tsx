@@ -21,29 +21,58 @@ const Index: React.FC<Props> = ({ orders, customers, selectedCustomerId }) => {
   };
 
   return (
-    <div className="bg-white p-4 shadow rounded">
-        <div className="flex align-center justify-between">
-            <h2 className="text-lg font-semibold mb-2">Daftar Order</h2>
-            <Link to="/orders/create" className="bg-blue-500 text-white flex align-center justify-center w-8 h-8 rounded-sm">
+    <div className="p-4 bg-white rounded shadow">
+        <div className="flex justify-between align-center">
+            <h2 className="mb-2 text-lg font-semibold">Daftar Order</h2>
+            <Link to="/orders/create" className="flex justify-center w-8 h-8 text-white bg-blue-500 rounded-sm align-center">
                  +
             </Link>
         </div>
-        {filteredOrders.length === 0 ? (
-            <p className="text-gray-500">Belum ada order untuk customer ini.</p>
-        ) : (
-            <ul className="divide-y">
-            {filteredOrders.map(order => (
-              <li key={order.id} className="py-2 px-2">
-                <div className="font-medium">Order ID: {order.id}</div>
-                 <div className="text-md font-600 text-slate-600 mt-4"> 
-                   <Link to={`/orders/show/${order.customer_id}`}>{filteredNameOrder(order.customer_id)}</Link>
-                  </div>
-                <div className="text-md font-600 text-slate-600">Total: Rp {order.total_price.toLocaleString("ID")}</div>
-                <div className="text-sm text-gray-600 pt-2">{formatTanggalIndonesia(order.created_at)}</div>
-              </li>
-            ))}
-            </ul>
-        )}
+        
+        <table className="w-full mt-4 text-sm text-left text-gray-500 rtl:text-right dark:text-gray-400">
+          <thead className="text-xs text-gray-700 uppercase bg-gray-50 ">
+            <tr>
+              <th scope="col" className="px-6 py-3">Order Id</th>
+              <th scope="col" className="px-6 py-3">Name</th>
+              <th scope="col" className="px-6 py-3">Detail Order</th>
+              <th scope="col" className="px-6 py-3">Total Order</th>
+              <th scope="col" className="px-6 py-3">Created At</th>
+            </tr>
+          </thead>
+          <tbody>
+            {filteredOrders.length === 0 ? (
+              <tr>
+                <td colSpan={5} className="px-6 py-4 text-center text-gray-500">
+                  Belum ada order untuk customer ini.
+                </td>
+              </tr>
+            ) : (
+              filteredOrders.map((order) => (
+                <tr key={order.id} className="bg-white border-b hover:bg-gray-50">
+                  <td className="px-6 py-4">{order.id}</td>
+                  <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
+                    {filteredNameOrder(order.customer_id)}
+                  </td>
+                  <td className="px-6 py-4">
+                    <ul>
+                      {order.items.map((item, idx) => (
+                        <li key={`${order.id}-${idx}`} className="space-y-1 whitespace-nowrap">
+                            {idx + 1}. {item.name} x {item.qty} = Rp {(item.price * item.qty).toLocaleString('id-ID')}
+                        </li>
+                      ))}
+                    </ul>
+                  </td>
+                  <td className="px-6 py-4">
+                    {order.total_price.toLocaleString("ID")}
+                  </td>
+                  <td className="px-6 py-4">
+                    {formatTanggalIndonesia(order.created_at)}
+                  </td>
+                </tr>
+              ))
+            )}
+          </tbody>
+        </table>
     </div>
   );
 };

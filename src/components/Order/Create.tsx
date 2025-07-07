@@ -87,6 +87,7 @@ const Create: React.FC<Props> = ({ customers, onSuccess }) => {
           setErrors([]);
           onSuccess();
 
+          localStorage.removeItem('orders');
           navigate('/orders');
         } else {
             const errorData = await res.json(); // baca message dari backend
@@ -100,11 +101,11 @@ const Create: React.FC<Props> = ({ customers, onSuccess }) => {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="bg-white p-4 shadow rounded space-y-4">
+    <form onSubmit={handleSubmit} className="p-4 space-y-4 bg-white rounded shadow">
       <h2 className="text-lg font-semibold">Tambah Order</h2>
 
       {errors.length > 0 && (
-        <ul className="bg-red-100 border border-red-400 text-red-700 p-3 rounded">
+        <ul className="p-3 text-red-700 bg-red-100 border border-red-400 rounded">
           {errors.map((err, idx) => (
             <li key={idx}>• {err}</li>
           ))}
@@ -114,7 +115,7 @@ const Create: React.FC<Props> = ({ customers, onSuccess }) => {
       <select
         value={customerId}
         onChange={(e) => setCustomerId(e.target.value)}
-        className="w-full border p-2 rounded"
+        className="w-full p-2 border rounded"
       >
         <option value="">Pilih Customer</option>
         {customers.map((cust) => (
@@ -126,7 +127,7 @@ const Create: React.FC<Props> = ({ customers, onSuccess }) => {
         <input
           type="text"
           placeholder="Nama Item"
-          className="flex-1 border p-2 rounded"
+          className="flex-1 p-2 border rounded"
           value={itemName}
           onChange={e => setItemName(e.target.value)}
         />
@@ -134,31 +135,31 @@ const Create: React.FC<Props> = ({ customers, onSuccess }) => {
           onChange={e => setItemQty(e.target.value)} 
           placeholder="Jumlah item" 
           type="number"   
-          className="w-32 border p-2 rounded" 
+          className="w-32 p-2 border rounded" 
         />
         <input
           type="number"
           placeholder="Harga"
-          className="w-32 border p-2 rounded"
+          className="w-32 p-2 border rounded"
           value={itemPrice}
           onChange={e => setItemPrice(e.target.value)}
         />
         <button
           type="button"
           onClick={addItem}
-          className="bg-gray-500 text-white px-4 rounded"
+          className="px-4 text-white bg-gray-500 rounded"
         >
           +
         </button>
       </div>
 
-      <div className="bg-gray-50 p-2 rounded">
-        <h3 className="font-semibold mb-1">Daftar Item</h3>
+      <div className="p-2 rounded bg-gray-50">
+        <h3 className="mb-1 font-semibold">Daftar Item</h3>
         {items.length === 0 ? (
           <p className="text-sm text-gray-500">Belum ada item.</p>
         ) : (
-          <ul className="text-sm space-y-1">
-            <table className="table-auto w-full my-4">
+          <ul className="space-y-1 text-sm">
+            <table className="w-full my-4 table-auto">
               <thead>
                 <tr>
                   <th className="text-left w-25">Name</th>
@@ -180,10 +181,10 @@ const Create: React.FC<Props> = ({ customers, onSuccess }) => {
             </table>
           </ul>
         )}
-        <div className="mt-2 font-bold mt-4">Total: Rp{totalPrice.toLocaleString("ID")}</div>
+        <div className="mt-2 mt-4 font-bold">Total: Rp{totalPrice.toLocaleString("ID")}</div>
       </div>
 
-      <button type="submit" className="bg-green-500 text-white px-4 py-2 rounded">
+      <button type="submit" className="px-4 py-2 text-white bg-green-500 rounded">
         Simpan Order
       </button>
     </form>
